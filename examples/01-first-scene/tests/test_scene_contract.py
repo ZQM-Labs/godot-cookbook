@@ -31,10 +31,10 @@ class FirstSceneContractTests(unittest.TestCase):
             with self.subTest(expected=expected):
                 self.assertIn(expected, script)
 
-
-if __name__ == "__main__":
-    unittest.main()
-
     def test_layout_does_not_force_a_fixed_minimum_width(self):
         script = (ROOT / "main.gd").read_text(encoding="utf-8")
         self.assertNotIn("stack.custom_minimum_size = Vector2(360, 0)", script)
+
+
+if __name__ == "__main__":
+    unittest.main()
