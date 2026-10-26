@@ -4,7 +4,7 @@ A minimal Godot 4 scene built entirely from GDScript-created UI controls. It dem
 
 ## Run it
 
-Open this directory as a project in Godot 4.7.2, then run the project. The button supports mouse, touch, and standard keyboard activation when focused. Resize the window to check the centered layout.
+Open this directory as a project in Godot 4.7.2, then run the project. The button supports mouse, touch, and standard keyboard activation when focused. Resize the window, including to a narrow mobile-sized width, to check the centered layout. The content stack expands into the available width instead of forcing a 360-pixel minimum.
 
 If Godot is installed on the command line:
 
