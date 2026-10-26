@@ -22,7 +22,7 @@ func _build_ui() -> void:
 	margin.add_child(center)
 
 	var stack := VBoxContainer.new()
-	stack.custom_minimum_size = Vector2(360, 0)
+	stack.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	stack.add_theme_constant_override("separation", 18)
 	center.add_child(stack)
 
