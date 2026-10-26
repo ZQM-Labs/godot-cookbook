@@ -11,17 +11,17 @@
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-A **Godot cookbook** for location games: scenes, GDScript, project structure, and asset pipelines. Patterns are written for quest-style games built with Godot, where scenes are the building blocks and scripts stay small and readable. It is intended for game developers building playable games with Godot. Validate each pattern against your own game, Godot version, and operating environment before adopting it.
+A **Godot cookbook** for quest-style games: scenes, GDScript, input, project structure, and asset pipelines. Examples should be small enough to understand, runnable in the documented engine version, and explicit about what static tests do and do not verify.
 
 ## Repository role and status
 
-**Status:** Active, public — seeding. Pattern passes land in follow-up work; the table below lists what is planned, not what is already written.
+**Status:** Active, public — first-scene project and static contract tests added. The pattern list distinguishes implemented content from planned work.
 
-**What this repository is:** Godot patterns — scenes, GDScript, project structure, and asset pipelines for games.
+**What this repository is:** Practical Godot patterns for scene lifecycle, UI/input, project structure, and asset delivery.
 
-**What it contributes:** Part of the ZQM Labs game-development portfolio, and a sibling to the ZQM Computing geospatial cookbook series.
+**What it contributes:** Part of the ZQM Labs game-development portfolio. It complements ZQM Computing's geospatial engineering repositories by focusing on the game client and playable experience.
 
-**Standing:** This repository is maintained independently. Automated checks cover only the paths and environments configured in its workflows; they do not establish production readiness or operational certification.
+**Quality bar:** Keep scene references valid, use engine-native controls where possible, include keyboard-accessible interactions, and test with the documented Godot version. Static checks are useful guardrails but do not establish engine runtime compatibility.
 
 ## Who this is for
 
@@ -29,33 +29,74 @@ Game developers building playable games with Godot, especially scene-based and q
 
 ## Prerequisites
 
-- Godot 4.7.2 (fleet-verified on Node-1; version pinned per pattern at fill time)
-- The Godot editor or a text editor for GDScript
-- Synthetic art and audio placeholders for the examples
+- Godot 4.7.2 (the version targeted by this example)
+- Python 3.11+ for dependency-free static contract tests
+- The Godot editor or command-line executable for runtime verification
 
-## Patterns (planned)
+## Patterns
 
-| # | Example | What it will demonstrate |
-|---|---------|--------------------------|
-| 01 | `01-first-scene` | A first playable scene: nodes, a player character, and a minimal game loop |
-| 02 | `02-gdscript-patterns` | GDScript structure: signals, autoloads, and scene-tree organization for quest games |
-| 03 | `03-project-structure` | Project layout: scenes, scripts, assets, and exports that stay organized as a game grows |
-| 04 | `04-asset-pipeline` | Importing and versioning art and audio for Godot builds, including WebP textures |
+### 01 — First playable scene (implemented)
+
+[Open the first-scene example](examples/01-first-scene/). Includes a project entry point, a root scene, programmatically constructed UI, a keyboard-focusable button, a visible counter/status, and static reference checks.
+
+### 02 — GDScript patterns (planned)
+
+Signals, script responsibilities, autoload boundaries, and scene-tree organization for quest games.
+
+### 03 — Project structure (planned)
+
+A maintainable layout for scenes, scripts, assets, and exports as a game grows.
+
+### 04 — Asset pipeline (planned)
+
+Importing and versioning art/audio, WebP textures, export presets, and reproducible builds.
+
+## Quick start
+
+Open `examples/01-first-scene/project.godot` in Godot 4.7.2 and run the project.
+
+Run static contract checks from the example directory:
+
+```sh
+cd examples/01-first-scene
+python -m unittest discover -s tests -v
+```
+
+These checks verify project and scene references and key interaction/status strings; they do not parse GDScript or replace an engine smoke test.
 
 ## Repository layout
 
 ```text
 godot-cookbook/
-├── examples/  # one directory per pattern
+├── .github/workflows/examples.yml
+├── examples/
+│   └── 01-first-scene/
+│       ├── project.godot
+│       ├── main.tscn
+│       ├── main.gd
+│       ├── README.md
+│       └── tests/
+│           └── test_scene_contract.py
 ├── README.md
 └── LICENSE
 ```
 
+## Engineering principles
+
+- Keep scene setup explicit and startup paths easy to trace.
+- Use signals for interactions and avoid hidden global state until there is a concrete need.
+- Prefer built-in UI controls for keyboard focus and activation.
+- Expose important state as readable text, not only visual effects.
+- Do not treat client-side state as proof of purchase, entitlement, or trusted score.
+- State the engine version and distinguish static checks from runtime testing.
+
 ## Roadmap
 
-- First pattern pass: first scene (01), then GDScript patterns (02)
-- Second pass: project structure (03) and asset pipeline (04)
+1. Add GDScript signal/autoload patterns with small examples.
+2. Add a reusable quest-state model with deterministic tests.
+3. Add project layout and asset-import/export guidance.
+4. Add headless Godot validation when the pinned engine is available in CI.
 
 ## Contributing
 
-A contributing guide lands with the first pattern pass. Report security issues to <zqmcomputing@gmail.com> — please do not open a public issue for those.
+Each pattern should include a minimal project or runnable example, exact verification commands, target engine version, known limitations, and input/accessibility considerations. Report security issues to <zqmcomputing@gmail.com> — please do not open a public issue for those.
