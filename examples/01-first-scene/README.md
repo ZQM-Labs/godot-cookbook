@@ -36,3 +36,5 @@ python -m unittest discover -s tests -v
 - Expose meaningful state in text, not only color or animation.
 - This counter is presentation state only. Never use a client-side counter as proof of a purchase, entitlement, or trusted score.
 - Static checks do not guarantee engine compatibility. Run the project with the documented Godot version before using it in another project.
+
+The static contract suite also guards the button's keyboard focusability and 56-pixel minimum height, wrapping of long instruction/status text, and expandable content with bounded horizontal margins. These checks protect intended source-level affordances; they do not measure the rendered control size or prove usability at a specific viewport. Validate in Godot at narrow and desktop sizes before treating the layout as runtime-verified.
