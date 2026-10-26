@@ -27,3 +27,25 @@ jobs:
       - name: Run static contract tests
         working-directory: examples/01-first-scene
         run: python -m unittest discover -s tests -v
+
+  godot-runtime:
+    name: Godot 4.7.2 headless smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Download and verify pinned Godot
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 \
+            --output /tmp/godot.zip \
+            https://github.com/godotengine/godot/releases/download/4.7.2-stable/Godot_v4.7.2-stable_linux.x86_64.zip
+          echo "cadd3204e728a35d3f13adb7fd0d7902636b79f6b95c40c265eb73b6c35329e4  /tmp/godot.zip" | sha256sum --check
+          mkdir -p /tmp/godot
+          unzip -q /tmp/godot.zip -d /tmp/godot
+          echo "/tmp/godot" >> "$GITHUB_PATH"
+      - name: Verify engine version
+        run: Godot_v4.7.2-stable_linux.x86_64 --headless --version
+      - name: Parse project and execute scene smoke test
+        run: Godot_v4.7.2-stable_linux.x86_64 --headless --path examples/01-first-scene --script res://tests/runtime_smoke.gd
