@@ -26,6 +26,7 @@ class FirstSceneContractTests(unittest.TestCase):
             'counter_label.text = "Activations: %d" % activations',
             'status_label.text = "Ready. Activations: %d." % activations',
             "button.grab_focus()",
+            "stack.size_flags_horizontal = Control.SIZE_EXPAND_FILL",
         ):
             with self.subTest(expected=expected):
                 self.assertIn(expected, script)
@@ -33,3 +34,7 @@ class FirstSceneContractTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_layout_does_not_force_a_fixed_minimum_width(self):
+        script = (ROOT / "main.gd").read_text(encoding="utf-8")
+        self.assertNotIn("stack.custom_minimum_size = Vector2(360, 0)", script)
