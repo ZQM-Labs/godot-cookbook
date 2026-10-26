@@ -97,6 +97,26 @@ godot-cookbook/
 3. Add project layout and asset-import/export guidance.
 4. Add headless Godot validation when the pinned engine is available in CI.
 
+## How this cookbook connects to the ZQM Labs stack
+
+Use this repository for the **game client and engine layer**. It is not the source of truth for browser automation, identity, or payment state.
+
+| Need | Related cookbook | Contract between layers |
+|---|---|---|
+| Validate browser-visible game flows | [Playwright Cookbook](https://github.com/ZQM-Labs/playwright-cookbook) | Test user-visible behavior against a local/synthetic fixture first; configure a live game target explicitly and separately. |
+| Player identity and private profile access | [PocketBase Cookbook](https://github.com/ZQM-Labs/pocketbase-cookbook) | The server derives identity from the authenticated session; client-side state is not authorization. |
+| Checkout and paid fulfillment | [Stripe Cookbook](https://github.com/ZQM-Labs/stripe-cookbook) | Treat verified server-side payment events and durable fulfillment as authoritative; never unlock paid content from a client redirect. |
+
+### Integration sequence
+
+1. Build the scene and player interaction here.
+2. Exercise the critical path with Playwright using deterministic fixtures.
+3. Add authenticated server requests through PocketBase, with access rules tested for both allowed and denied cases.
+4. For paid products, use Stripe's verified fulfillment flow; persist entitlements server-side and have the game request authorization from the backend.
+5. Add an end-to-end test only after each boundary has an explicit test environment and synthetic data.
+
+These repositories are **complementary recipes, not a pre-integrated application**. Their examples do not automatically share schemas, credentials, deployments, or runtime configuration. Integration work must document the API contract, identity mapping, entitlement schema, environment variables, and failure/retry behavior before connecting real services.
+
 ## Contributing
 
 Each pattern should include a minimal project or runnable example, exact verification commands, target engine version, known limitations, and input/accessibility considerations. Report security issues to <zqmcomputing@gmail.com> — please do not open a public issue for those.
